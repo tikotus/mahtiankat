@@ -8,7 +8,7 @@ world = {
 	},
 	obstacles : {
 		y : 300,
-		x : 500,
+		x : 800,
 		_children : {}
 	},
     conflict : {
