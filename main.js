@@ -10,7 +10,7 @@ window.onload = function() {
 	game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload });
 
 	// Define start state
-	var stateStart = function(game) {}
+	var stateStart = function(game) {};
 	stateStart.prototype = {
 		preload : preload,
 		create : function() { 
@@ -21,11 +21,11 @@ window.onload = function() {
 				game.state.start("ingame");
 			}
 		}
-	}
+	};
 	game.state.add("start", stateStart);
 
 	// Define end state
-	var stateEnd = function(game) {}
+	var stateEnd = function(game) {};
 	stateEnd.prototype = {
 		preload : preload,
 		create : function() { initializeWorld(end, game.add.group()); },
@@ -34,16 +34,16 @@ window.onload = function() {
 				game.state.start("ingame");
 			}
 		}
-	}
+	};
 	game.state.add("end", stateEnd);
 
 	// Define ingame state
-	var stateIngame = function(game) {}
+	var stateIngame = function(game) {};
 	stateIngame.prototype = {
 		preload : preload,
 		create : create,
 		update : update
-	}
+	};
 	game.state.add("ingame", stateIngame);
 
 	// Start game from start state
@@ -51,7 +51,9 @@ window.onload = function() {
 
 	function preload () {
 		game.load.image('logo', 'phaser.png');
+        game.load.image('obstacle', 'obstacle.png');
         game.load.image('conflict', 'handsoff.png');
+        game.load.image('staminaBar', 'stamina.png');
 	}
 
 	function create () {
@@ -90,7 +92,7 @@ window.onload = function() {
             obstacle.body.checkCollision.right = false;
             obstacle.body.checkCollision.up = false;
             obstacle.body.checkCollision.down = false;
-            console.log("FAIL!"); // call fail method
+            game.state.start("end");
             return true;
         });
     }
@@ -114,20 +116,21 @@ window.onload = function() {
 				obj.width = 30;
 				obj.height = 150;
 				obj.y = locations[index];
+                obj.x = 800;
 				console.log(obj.y);
 				obj.originalData = {};
                 game.physics.enable(obj, Phaser.Physics.ARCADE);
                 obj.body.velocity.x = -150;
                 obstacleGroup.add(obj);
                 /*
-				obj.originalData.x = function() { 
+				obj.originalData.x = function() {
 					return -(totalTime - spawnTime) * 0.2;
-				}
-				*/
-				world.obstacles._children["obstacle" + spawnIndex] = obj
+				};
+                 */
+				world.obstacles._children["obstacle" + spawnIndex] = obj;
 				spawnIndex++;
 			};
-			var randomIndex = Math.floor(spawnIndex % locations.length)
+			var randomIndex = Math.floor(spawnIndex % locations.length);
 			createObstacle(randomIndex);
 			//createObstacle((randomIndex + 1) % locations.length);
 
