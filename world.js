@@ -1,12 +1,17 @@
 world = {
-	"player" : {
+	player : {
 		sprite : "logo",
-		x : function() { return Math.sin(time() * 0.001)*50 +200 },
+		x : function() { return Math.sin(totalTime * 0.001)*50 +200 },
 		y : 300,
 		width : 150,
 		height : 150
 	},
-    "conflict": {
+	obstacles : {
+		y : 300,
+		x : 500,
+		_children : {}
+	},
+    conflict : {
         sprite : "conflict",
         x : 300,
         y: 300,
