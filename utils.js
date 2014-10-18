@@ -11,17 +11,12 @@ function addSprite(name) {
 	return sprite;
 }
 
-function initializeHierarchy(hierarchy) {
-	if (hierarchy.hasOwnProperty("sprite")) {
-		console.log("Sprite found");
-		var addedSprite = hierarchy.entity = addSprite(hierarchy.sprite);
-		for (var key in hierarchy) {
-			addedSprite[key] = hierarchy[key];
-		}
-	}
-	if (hierarchy.hasOwnProperty("children")) {
-		for (var key in hierarchy.children) {
-			initializeHierarchy(hierarchy.children[key]);
+function initializeWorld(world) {
+	for (var name in world) {
+		var obj = world[name];
+		if (obj.hasOwnProperty("sprite")) {
+			var addedSprite = addSprite(obj.sprite);
+			obj.entity = addedSprite;
 		}
 	}
 }
@@ -35,15 +30,12 @@ function get(val) {
 	}
 }
 
-function updateHierarchy(hierarchy) {
-	if (hierarchy.hasOwnProperty("entity")) {
-		for (var key in hierarchy) {
-			hierarchy.entity[key] = get(hierarchy[key]);
-		}
-	}
-	if (hierarchy.hasOwnProperty("children")) {
-		for (var key in hierarchy.children) {
-			updateHierarchy(hierarchy.children[key]);
+function updateWorld(world) {
+	for (var name in world) {
+		var obj = world[name];
+		for (var key in obj) {
+			console.log("Update " + key);
+			obj.entity[key] = get(obj[key]);	
 		}
 	}
 }

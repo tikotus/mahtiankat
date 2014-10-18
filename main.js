@@ -9,12 +9,11 @@ window.onload = function() {
 
 	function create () {
 		game.stage.backgroundColor = '#CCCCFF'
-		initializeHierarchy(world);
-
+		initializeWorld(world);
 	}
 
 	function update() {
-		updateHierarchy(world);
+		updateWorld(world);
 	}
 
 };
