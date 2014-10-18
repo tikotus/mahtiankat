@@ -14,6 +14,7 @@ window.onload = function() {
 
 	function update() {
 		updateWorld(world);
+		world.player.y = world.player.y + 1;
 	}
 
 };

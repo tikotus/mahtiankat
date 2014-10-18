@@ -11,16 +11,6 @@ function addSprite(name) {
 	return sprite;
 }
 
-function initializeWorld(world) {
-	for (var name in world) {
-		var obj = world[name];
-		if (obj.hasOwnProperty("sprite")) {
-			var addedSprite = addSprite(obj.sprite);
-			obj.entity = addedSprite;
-		}
-	}
-}
-
 function get(val) {
 	if (typeof val == "function") {
 		return get(val());
@@ -30,12 +20,26 @@ function get(val) {
 	}
 }
 
+function initializeWorld(world) {
+	for (var name in world) {
+		var data = world[name];
+		if (data.hasOwnProperty("sprite")) {
+			world[name] = addSprite(data.sprite);
+			world[name].originalData = data;
+			for (var key in data) {
+				world[name][key] = get(data[key]);
+			}
+		}
+	}
+}
+
 function updateWorld(world) {
 	for (var name in world) {
-		var obj = world[name];
-		for (var key in obj) {
-			console.log("Update " + key);
-			obj.entity[key] = get(obj[key]);	
+		var sprite = world[name];
+		for (var key in sprite.originalData) {
+			if (typeof sprite.originalData[key] == "function") {
+				sprite[key] = get(sprite.originalData[key]);		
+			}
 		}
 	}
 }
