@@ -14,7 +14,7 @@ var maxY = 300;
 
 var cJumpDecay = 10; //bigger==fall faster
 var cJumpStamina = 0.5; //stamina consumption rate on jump
-
+var cJumpFrame = 2;
 
 var runMusic;
 var menuMusic;
@@ -118,8 +118,10 @@ window.onload = function() {
             return keyEnter(elapsed)+keyNumpadEnter(elapsed);
         };
         var playerSprite = world.player._children["player"];
-        playerSprite.animations.add('run');
-        playerSprite.animations.play('run', 4, true);
+        playerSprite.animations.add('run', null, 4, true);
+        playerSprite.animations.play('run');
+
+        playerSprite.animations.add('jump', [cJumpFrame], 1, true);
 
         game.sound.stopAll();
         menuMusic.stop();
@@ -145,8 +147,12 @@ window.onload = function() {
         if (power > 0 ) {
             playerElevation+=power;
             stamina-=power*cJumpStamina;
+            world.player._children["player"].animations.play('jump');
         } else {
             playerElevation=Math.max(0, playerElevation-game.time.elapsed/cJumpDecay);
+        }
+        if (playerElevation==0) {
+            world.player._children["player"].animations.play('run');
         }
     }
 
