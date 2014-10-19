@@ -28,12 +28,14 @@ window.onload = function() {
 	stateStart.prototype = {
 		preload : preload,
 		create : function() { 
-			initializeWorld(worldStart(), game.add.group());
+			world = worldStart();
+			initializeWorld(world, game.add.group());
             runMusic.stop();
             game.sound.stopAll();
             menuMusic.play('', 0, 1, true);
 		},
 		update : function() {
+			updateWorld(world);
 			if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 				game.state.start("ingame");
 			}
