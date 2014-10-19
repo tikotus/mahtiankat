@@ -41,8 +41,8 @@ function initializeWorld(world, parent) {
 
 		if (data.hasOwnProperty("_children")) {
 			// Initialize children
-			console.log(get(data.children));
-			initializeWorld(get(data.children), world[name]);
+			console.log(get(data._children));
+			initializeWorld(get(data._children), world[name]);
 		}
 	}
 }

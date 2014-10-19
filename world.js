@@ -1,11 +1,19 @@
 function worldIngame() {
 	return {
 		player : {
-			sprite : "logo",
+            _children: {
+                player: {
+                    sprite : "player",
+                    width : 50,
+                    height : 50
+                },
+                shadow: {
+                    sprite: "shadow",
+                    y: 50
+                }
+            },
 			x : function() { return Math.sin(totalTime * 0.001)*50 +200 },
-			y : 300,
-			width : 50,
-			height : 50
+			y : 300
 		},
 		obstacles : {
 			y : 300,

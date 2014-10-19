@@ -54,9 +54,11 @@ window.onload = function() {
 
 	function preload () {
 		game.load.image('logo', 'phaser.png');
+        game.load.spritesheet('player', 'phaser64x64.png', 64, 64, 4);
         game.load.image('obstacle', 'obstacle.png');
         game.load.image('conflict', 'handsoff.png');
         game.load.image('staminaBar', 'stamina.png');
+        game.load.image('shadow', 'shadow.png');
 	}
 
 	function create () {
@@ -71,7 +73,7 @@ window.onload = function() {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         obstacleGroup = world.obstacles;
-        game.physics.enable(world.player, Phaser.Physics.ARCADE);
+        game.physics.enable(world.player._children["shadow"], Phaser.Physics.ARCADE);
 
         var keyDown = keyhandler(Phaser.Keyboard.DOWN, 0.0003, 0.3);
         var keyUp =  keyhandler(Phaser.Keyboard.UP, 0.0003, 0.3);
@@ -81,7 +83,10 @@ window.onload = function() {
         };
         staminaIncrease = function(elapsed) {
         	return keySpace(elapsed)-0.3;
-        }
+        };
+        var playerSprite = world.player._children["player"];
+        playerSprite.animations.add('run');
+        playerSprite.animations.play('run', 4, true);
 	}
 
 	function update() {
@@ -99,7 +104,7 @@ window.onload = function() {
 
     function collideAll() {
         // if not jumping
-        game.physics.arcade.collide(world.player, obstacleGroup, function(player, obstacle) {
+        game.physics.arcade.collide(world.player._children["shadow"], obstacleGroup, function(player, obstacle) {
             obstacle.body.checkCollision.left = false;
             obstacle.body.checkCollision.right = false;
             obstacle.body.checkCollision.up = false;
