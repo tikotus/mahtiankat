@@ -26,6 +26,9 @@ function keyhandler(key, acceleration, maxvalue) {
 function checkConcurrentKeys() {
     var keys = _numKeysDown();
     if (keys>1 || (keyConflict && keys>0)) {
+        if (!keyConflict) {
+            handsoffSound.play('', 0, 1, false);
+        }
         keyConflict = true;
     } else {
         keyConflict = false;

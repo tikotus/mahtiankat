@@ -82,9 +82,11 @@ window.onload = function() {
 
         game.load.audio('ontherun', ['23080__On game music.mp3','23080__On game music.ogg']);
         game.load.audio('menu', ['190628__GAME OVER music.mp3','190628__GAME OVER music.ogg']);
+        game.load.audio('handsoff', ['sfx/142608__autistic-lucario__error.wav']);
 
         runMusic = game.add.audio('ontherun');
         menuMusic = game.add.audio('menu');
+        handsoffSound = game.add.audio('handsoff');
 	}
 
 	function create () {
