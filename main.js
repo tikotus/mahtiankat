@@ -82,6 +82,8 @@ window.onload = function() {
         game.load.image('staminaBar', 'stamina.png');
         game.load.image('shadow', 'shadow.png');
         game.load.image('field', 'field.png');
+        game.load.image('drinkBG', 'drink_bg.png');
+        game.load.image('drinkIcon', 'drink.png');
 
         game.load.audio('ontherun', ['23080__On game music.mp3','23080__On game music.ogg']);
         game.load.audio('menu', ['190628__GAME OVER music.mp3','190628__GAME OVER music.ogg']);

@@ -35,12 +35,26 @@ function worldIngame() {
 	        visible: function() { return keyConflict;}
 	    },
 	    staminaBar : {
-	    	sprite : "staminaBar",
 	    	x : 200, 
 	    	y : 500,
-	    	anchor : { x : 0, y : 0 },
-	    	width : function() { return Math.max(0, 400 * (stamina / maxStamina)); },
-	    	height : 50
+	    	_children : {
+	    		bg : {
+	    			sprite : "drinkBG",
+	    			anchor : { x : 0, y : 0.5 }
+	    		},
+				fill : {
+			    	sprite : "staminaBar",
+			    	anchor : { x : 0, y : 0.5 },
+			    	width : function() { return Math.max(0, 310 * (stamina / maxStamina)); },
+			    	height : 50,
+			    	x : 97					
+				},
+				icon : {
+					sprite : "drinkIcon",
+					anchor : { x : 0.5, y: 0.5 },
+					x : 58
+				}
+	    	}
 	    },
 	    scoreLabel : {
 	    	text : function() { return Math.floor(totalTime / 1000) + " metres"; },
