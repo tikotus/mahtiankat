@@ -35,6 +35,11 @@ function worldIngame() {
 	    	anchor : { x : 0, y : 0 },
 	    	width : function() { return Math.max(0, 400 * (stamina / maxStamina)); },
 	    	height : 50
+	    },
+	    scoreLabel : {
+	    	text : function() { return Math.floor(totalTime / 1000) + " meters"; },
+	    	style : { font: "65px Arial", fill: "#ff0044", align: "center" },
+	    	x : 300
 	    }
 	};
 }
