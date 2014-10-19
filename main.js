@@ -7,6 +7,8 @@ var stamina;
 var world;
 var nextSpawnTime;
 var spawnIndex;
+var playerElevation = 0;
+var jumpPower;
 
 window.onload = function() {
 
@@ -78,11 +80,16 @@ window.onload = function() {
         var keyDown = keyhandler(Phaser.Keyboard.DOWN, 0.0003, 0.3);
         var keyUp =  keyhandler(Phaser.Keyboard.UP, 0.0003, 0.3);
         var keySpace = keyhandler(Phaser.Keyboard.SPACEBAR, 0.0003, 0.035);
+        var keyEnter = keyhandler(Phaser.Keyboard.ENTER, 0.003, 0.05);
+        var keyNumpadEnter = keyhandler(Phaser.Keyboard.NUMPAD_ENTER, 0.003, 0.05);
         playerMove = function(elapsed) {
             return keyDown(elapsed)-keyUp(elapsed);
         };
         staminaIncrease = function(elapsed) {
         	return keySpace(elapsed)-0.3;
+        };
+        jumpPower = function(elapsed) {
+            return keyEnter(elapsed)+keyNumpadEnter(elapsed);
         };
         var playerSprite = world.player._children["player"];
         playerSprite.animations.add('run');
@@ -94,6 +101,7 @@ window.onload = function() {
         checkConcurrentKeys();
 		updateWorld(world);
 		createRandomObstacles();
+        handleJumping();
         collideAll();
 		world.player.y += playerMove(game.time.elapsed);
 		stamina = Math.max(0, Math.min(stamina + staminaIncrease(game.time.elapsed), maxStamina));
@@ -102,16 +110,27 @@ window.onload = function() {
 		}
 	}
 
+    function handleJumping() {
+        var power = jumpPower(game.time.elapsed)>0;
+        if (power > 0 ) {
+            playerElevation+=power;
+            stamina-=power/2;
+        } else {
+            playerElevation=Math.max(0, playerElevation-game.time.elapsed/10);
+        }
+    }
+
     function collideAll() {
-        // if not jumping
-        game.physics.arcade.collide(world.player._children["shadow"], obstacleGroup, function(player, obstacle) {
-            obstacle.body.checkCollision.left = false;
-            obstacle.body.checkCollision.right = false;
-            obstacle.body.checkCollision.up = false;
-            obstacle.body.checkCollision.down = false;
-            game.state.start("end");
-            return true;
-        });
+        if (playerElevation==0) {
+            game.physics.arcade.collide(world.player._children["shadow"], obstacleGroup, function(player, obstacle) {
+                obstacle.body.checkCollision.left = false;
+                obstacle.body.checkCollision.right = false;
+                obstacle.body.checkCollision.up = false;
+                obstacle.body.checkCollision.down = false;
+                game.state.start("end");
+                return true;
+            });
+        }
     }
 
 	function createRandomObstacles() {

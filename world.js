@@ -5,7 +5,8 @@ function worldIngame() {
                 player: {
                     sprite : "player",
                     width : 50,
-                    height : 50
+                    height : 50,
+                    y: function() { return -playerElevation; }
                 },
                 shadow: {
                     sprite: "shadow",
