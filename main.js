@@ -55,7 +55,7 @@ window.onload = function() {
 	function preload () {
 		game.load.image('logo', 'phaser.png');
         game.load.spritesheet('player', 'phaser64x64.png', 64, 64, 4);
-        game.load.image('obstacle', 'obstacle.png');
+        game.load.image('obstacle', 'fence.png');
         game.load.image('conflict', 'handsoff.png');
         game.load.image('staminaBar', 'stamina.png');
         game.load.image('shadow', 'shadow.png');
@@ -128,12 +128,12 @@ window.onload = function() {
 				var spawnTime = totalTime;
 				var obj = world.obstacles.create(0, 0, "obstacle");
 				obj.anchor.setTo(0.5, 0.5);
-				obj.width = 30;
-				obj.height = 340;
 				obj.y = locations[index];
                 obj.x = 800;
                 game.physics.enable(obj, Phaser.Physics.ARCADE);
                 obj.body.velocity.x = -150;
+                obj.body.setSize(obj.width, obj.height-30, 0, 30);
+
                 obstacleGroup.add(obj);
                 /*
 				obj.originalData.x = function() {
