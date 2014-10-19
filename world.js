@@ -26,14 +26,6 @@ function worldIngame() {
 			x : function() { return Math.sin(totalTime * 0.001)*50 +200 },
 			y : 300
 		},
-	    conflict : {
-	        sprite : "conflict",
-	        x : 300,
-	        y: 300,
-	        width: 300,
-	        height: 100,
-	        visible: function() { return keyConflict;}
-	    },
 	    staminaBar : {
 	    	x : 200, 
 	    	y : 500,
@@ -45,9 +37,10 @@ function worldIngame() {
 				fill : {
 			    	sprite : "staminaBar",
 			    	anchor : { x : 0, y : 0.5 },
-			    	width : function() { return Math.max(0, 310 * (stamina / maxStamina)); },
-			    	height : 50,
-			    	x : 97					
+			    	width : function() { return Math.max(0, 316 * (stamina / maxStamina)); },
+			    	height : 60,
+			    	y : -1,
+			    	x : 94
 				},
 				icon : {
 					sprite : "drinkIcon",
@@ -58,9 +51,21 @@ function worldIngame() {
 	    },
 	    scoreLabel : {
 	    	text : function() { return Math.floor(totalTime / 1000) + " metres"; },
-	    	style : { font: "65px Arial", fill: "#ff0044", align: "center" },
-	    	x : 300
-	    }
+	    	style : { font: "65px Arial", fill: scoreColor, align: "center" },
+	    	x : 300,
+	    	y : 10,
+	    	visible: function() { return !keyConflict;}
+	    },
+	    conflict : {
+	    	_children : {
+				image : {	       
+	 				sprite : "conflict",
+		    		x : 400,
+		    		y: 245,
+		    		visible: function() { return keyConflict;}
+		    	}	    	
+		   	}
+	    },
 	};
 }
 

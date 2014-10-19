@@ -11,10 +11,11 @@ var playerElevation = 0;
 var jumpPower;
 var minY = 100;
 var maxY = 300;
+var scoreColor = "#FFFF00";
 
 var cJumpDecay = 10; //bigger==fall faster
 var cJumpStamina = 0.5; //stamina consumption rate on jump
-var cJumpFrame = 3;
+var cJumpFrame = 1;
 
 var runMusic;
 var menuMusic;
@@ -78,7 +79,7 @@ window.onload = function() {
         game.load.image('logo', 'title.png');
         game.load.spritesheet('player', 'char64x64.png', 64, 64, 4);
         game.load.image('obstacle', 'fence.png');
-        game.load.image('conflict', 'handsoff.png');
+        game.load.image('conflict', 'error.png');
         game.load.image('staminaBar', 'stamina.png');
         game.load.image('shadow', 'shadow.png');
         game.load.image('field', 'field.png');
@@ -125,7 +126,7 @@ window.onload = function() {
             return keyEnter(elapsed)+keyNumpadEnter(elapsed);
         };
         var playerSprite = world.player._children["player"];
-        playerSprite.animations.add('run', null, 4, true);
+        playerSprite.animations.add('run', null, 6, true);
         playerSprite.animations.play('run');
 
         playerSprite.animations.add('jump', [cJumpFrame], 1, true);
