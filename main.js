@@ -4,7 +4,7 @@ var totalTime = 0;
 var obstacleGroup;
 var maxStamina = 100;
 var stamina = 100;
-
+var world;
 window.onload = function() {
 
 	game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload });
@@ -14,7 +14,7 @@ window.onload = function() {
 	stateStart.prototype = {
 		preload : preload,
 		create : function() { 
-			initializeWorld(start, game.add.group());
+			initializeWorld(worldStart(), game.add.group());
 		},
 		update : function() {
 			if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
@@ -28,7 +28,7 @@ window.onload = function() {
 	var stateEnd = function(game) {};
 	stateEnd.prototype = {
 		preload : preload,
-		create : function() { initializeWorld(end, game.add.group()); },
+		create : function() { initializeWorld(worldEnd(), game.add.group()); },
 		update : function() {
 			if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 				game.state.start("ingame");
@@ -47,7 +47,7 @@ window.onload = function() {
 	game.state.add("ingame", stateIngame);
 
 	// Start game from start state
-	game.state.start("ingame");
+	game.state.start("start");
 
 	function preload () {
 		game.load.image('logo', 'phaser.png');
@@ -58,10 +58,11 @@ window.onload = function() {
 
 	function create () {
 		game.stage.backgroundColor = '#CCCCFF';
+		world = worldIngame();
 		initializeWorld(world, game.add.group());
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        obstacleGroup = game.add.group();
+        obstacleGroup = world.obstacles;
         game.physics.enable(world.player, Phaser.Physics.ARCADE);
 
         var keyDown = keyhandler(Phaser.Keyboard.DOWN, 0.0003, 0.3);
@@ -97,7 +98,7 @@ window.onload = function() {
         });
     }
 
-    var nextSpawnTime = 2000;
+    var nextSpawnTime = 0;
 	var spawnIndex = 0;
 	function createRandomObstacles() {
         if (totalTime > nextSpawnTime) {
@@ -108,17 +109,15 @@ window.onload = function() {
 				world.obstacles._children["obstacle" + spawnIndex].destroy();	
 			}
 
-			var locations = [0, 150];
+			var locations = [-150, 150];
 			var createObstacle = function(index) {
 				var spawnTime = totalTime;
 				var obj = world.obstacles.create(0, 0, "obstacle");
 				obj.anchor.setTo(0.5, 0.5);
 				obj.width = 30;
-				obj.height = 150;
+				obj.height = 340;
 				obj.y = locations[index];
                 obj.x = 800;
-				console.log(obj.y);
-				obj.originalData = {};
                 game.physics.enable(obj, Phaser.Physics.ARCADE);
                 obj.body.velocity.x = -150;
                 obstacleGroup.add(obj);
@@ -130,8 +129,7 @@ window.onload = function() {
 				world.obstacles._children["obstacle" + spawnIndex] = obj;
 				spawnIndex++;
 			};
-			var randomIndex = Math.floor(spawnIndex % locations.length);
-			createObstacle(randomIndex);
+			createObstacle(spawnIndex % locations.length);
 			//createObstacle((randomIndex + 1) % locations.length);
 
 			nextSpawnTime = totalTime + 2000 + Math.random() * 500;

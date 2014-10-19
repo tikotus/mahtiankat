@@ -1,7 +1,9 @@
-start = {
-	bg : {
-		sprite : "logo",
-		x : 400,
-		y : 400
-	}
+function worldStart() {
+	return {
+		bg : {
+			sprite : "logo",
+			x : 400,
+			y : 400
+		}
+	};
 }
