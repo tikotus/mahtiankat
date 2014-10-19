@@ -13,6 +13,10 @@ var jumpPower;
 var cJumpDecay = 10; //bigger==fall faster
 var cJumpStamina = 0.5; //stamina consumption rate on jump
 
+
+var runMusic;
+var menuMusic;
+
 window.onload = function() {
 
 	game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload });
@@ -23,6 +27,9 @@ window.onload = function() {
 		preload : preload,
 		create : function() { 
 			initializeWorld(worldStart(), game.add.group());
+            runMusic.stop();
+            game.sound.stopAll();
+            menuMusic.play('', 0, 1, true);
 		},
 		update : function() {
 			if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
@@ -36,7 +43,12 @@ window.onload = function() {
 	var stateEnd = function(game) {};
 	stateEnd.prototype = {
 		preload : preload,
-		create : function() { initializeWorld(worldEnd(), game.add.group()); },
+		create : function() {
+            initializeWorld(worldEnd(), game.add.group());
+            runMusic.stop();
+            game.sound.stopAll();
+            menuMusic.play('', 0, 1, true);
+        },
 		update : function() {
 			if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 				game.state.start("ingame");
@@ -64,6 +76,12 @@ window.onload = function() {
         game.load.image('conflict', 'handsoff.png');
         game.load.image('staminaBar', 'stamina.png');
         game.load.image('shadow', 'shadow.png');
+
+        game.load.audio('ontherun', ['23080__On game music.mp3','23080__On game music.ogg']);
+        game.load.audio('menu', ['190628__GAME OVER music.mp3','190628__GAME OVER music.ogg']);
+
+        runMusic = game.add.audio('ontherun');
+        menuMusic = game.add.audio('menu');
 	}
 
 	function create () {
@@ -97,6 +115,10 @@ window.onload = function() {
         var playerSprite = world.player._children["player"];
         playerSprite.animations.add('run');
         playerSprite.animations.play('run', 4, true);
+
+        game.sound.stopAll();
+        menuMusic.stop();
+        runMusic.play('', 0, 1, true);
 	}
 
 	function update() {
