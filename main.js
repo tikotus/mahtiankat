@@ -61,6 +61,7 @@ window.onload = function() {
         game.load.image('conflict', 'handsoff.png');
         game.load.image('staminaBar', 'stamina.png');
         game.load.image('shadow', 'shadow.png');
+        game.load.image('field', 'field.png');
 	}
 
 	function create () {
@@ -142,16 +143,16 @@ window.onload = function() {
 				world.obstacles._children["obstacle" + spawnIndex].destroy();	
 			}
 
-			var locations = [-150, 150];
+			var locations = [-140, 20];
 			var createObstacle = function(index) {
 				var spawnTime = totalTime;
 				var obj = world.obstacles.create(0, 0, "obstacle");
 				obj.anchor.setTo(0.5, 0.5);
 				obj.y = locations[index];
-                obj.x = 800;
+                obj.x = 0;
                 game.physics.enable(obj, Phaser.Physics.ARCADE);
                 obj.body.velocity.x = -150;
-                obj.body.setSize(obj.width, obj.height-30, 0, 30);
+                obj.body.setSize(obj.width, obj.height-30, 0, 15);
 
                 obstacleGroup.add(obj);
                 /*

@@ -1,5 +1,10 @@
 function worldIngame() {
 	return {
+		background : {
+			tileSprite : "field",
+			anchor : {x : 0, y : 0 },
+			tilePosition : function() { return { x : -totalTime * 0.15, y : 0}; }
+		},
 		player : {
             _children: {
                 player: {
@@ -38,7 +43,7 @@ function worldIngame() {
 	    	height : 50
 	    },
 	    scoreLabel : {
-	    	text : function() { return Math.floor(totalTime / 1000) + " meters"; },
+	    	text : function() { return Math.floor(totalTime / 1000) + " metres"; },
 	    	style : { font: "65px Arial", fill: "#ff0044", align: "center" },
 	    	x : 300
 	    }
