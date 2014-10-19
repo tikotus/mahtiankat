@@ -5,6 +5,11 @@ function worldIngame() {
 			anchor : {x : 0, y : 0 },
 			tilePosition : function() { return { x : -totalTime * 0.15, y : 0}; }
 		},
+		obstacles : {
+			y : 300,
+			x : 800,
+			_children : {}
+		},
 		player : {
             _children: {
                 player: {
@@ -20,11 +25,6 @@ function worldIngame() {
             },
 			x : function() { return Math.sin(totalTime * 0.001)*50 +200 },
 			y : 300
-		},
-		obstacles : {
-			y : 300,
-			x : 800,
-			_children : {}
 		},
 	    conflict : {
 	        sprite : "conflict",

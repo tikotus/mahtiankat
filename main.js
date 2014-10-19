@@ -9,6 +9,8 @@ var nextSpawnTime;
 var spawnIndex;
 var playerElevation = 0;
 var jumpPower;
+var minY = 100;
+var maxY = 300;
 
 var cJumpDecay = 10; //bigger==fall faster
 var cJumpStamina = 0.5; //stamina consumption rate on jump
@@ -129,7 +131,7 @@ window.onload = function() {
 		createRandomObstacles();
         handleJumping();
         collideAll();
-		world.player.y += playerMove(game.time.elapsed);
+		world.player.y = Math.max(Math.min(world.player.y + playerMove(game.time.elapsed), maxY), minY);
 		stamina = Math.max(0, Math.min(stamina + staminaIncrease(game.time.elapsed), maxStamina));
 		if (stamina <= 0) {
 			game.state.start("end");
