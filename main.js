@@ -135,8 +135,9 @@ window.onload = function() {
     }
 
 	function createRandomObstacles() {
+		var maxFences = 15
         if (totalTime > nextSpawnTime) {
-            if (spawnIndex > 11) {
+            if (spawnIndex > maxFences) {
                 spawnIndex = 0;
             }
 			if (world.obstacles._children.hasOwnProperty("obstacle" + spawnIndex)) {
@@ -144,11 +145,11 @@ window.onload = function() {
 			}
 
 			var locations = [-140, 20];
-			var createObstacle = function(index) {
+			var createObstacle = function(y) {
 				var spawnTime = totalTime;
 				var obj = world.obstacles.create(0, 0, "obstacle");
 				obj.anchor.setTo(0.5, 0.5);
-				obj.y = locations[index];
+				obj.y = y;
                 obj.x = 0;
                 game.physics.enable(obj, Phaser.Physics.ARCADE);
                 obj.body.velocity.x = -150;
@@ -161,12 +162,16 @@ window.onload = function() {
 				};
                  */
 				world.obstacles._children["obstacle" + spawnIndex] = obj;
-				spawnIndex++;
 			};
-			createObstacle(spawnIndex % locations.length);
-			//createObstacle((randomIndex + 1) % locations.length);
-
-			nextSpawnTime = totalTime + 2000 + Math.random() * 500;
+			createObstacle(locations[spawnIndex % locations.length]);
+			spawnIndex++;
+			if (spawnIndex % 5 == 4) {
+				// Create a double fence
+				createRandomObstacles();
+			}
+			else {
+				nextSpawnTime = totalTime + 2000 + Math.random() * 500;	
+			}
 		}
 	}
 };
