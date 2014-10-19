@@ -52,6 +52,7 @@ window.onload = function() {
             runMusic.stop();
             game.sound.stopAll();
             menuMusic.play('', 0, 1, true);
+            gameoverSound.play('', 0, 1, false);
         },
 		update : function() {
 			if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
@@ -85,10 +86,12 @@ window.onload = function() {
         game.load.audio('ontherun', ['23080__On game music.mp3','23080__On game music.ogg']);
         game.load.audio('menu', ['190628__GAME OVER music.mp3','190628__GAME OVER music.ogg']);
         game.load.audio('handsoff', ['sfx/142608__autistic-lucario__error.wav']);
+        game.load.audio('gameover', ['sfx/178876__rocotilos__game-over-evil.wav']);
 
         runMusic = game.add.audio('ontherun');
         menuMusic = game.add.audio('menu');
         handsoffSound = game.add.audio('handsoff');
+        gameoverSound = game.add.audio('gameover');
 	}
 
 	function create () {
