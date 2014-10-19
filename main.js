@@ -9,6 +9,8 @@ var nextSpawnTime;
 var spawnIndex;
 var playerElevation = 0;
 var jumpPower;
+var minY = 100;
+var maxY = 300;
 
 var cJumpDecay = 10; //bigger==fall faster
 var cJumpStamina = 0.5; //stamina consumption rate on jump
@@ -70,7 +72,7 @@ window.onload = function() {
 	game.state.start("start");
 
 	function preload () {
-		game.load.image('logo', 'phaser.png');
+        game.load.image('logo', 'title.png');
         game.load.spritesheet('player', 'char64x64.png', 64, 64, 4);
         game.load.image('obstacle', 'fence.png');
         game.load.image('conflict', 'handsoff.png');
@@ -80,9 +82,11 @@ window.onload = function() {
 
         game.load.audio('ontherun', ['23080__On game music.mp3','23080__On game music.ogg']);
         game.load.audio('menu', ['190628__GAME OVER music.mp3','190628__GAME OVER music.ogg']);
+        game.load.audio('handsoff', ['sfx/142608__autistic-lucario__error.wav']);
 
         runMusic = game.add.audio('ontherun');
         menuMusic = game.add.audio('menu');
+        handsoffSound = game.add.audio('handsoff');
 	}
 
 	function create () {
@@ -97,10 +101,7 @@ window.onload = function() {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         obstacleGroup = world.obstacles;
-        var shadowObject = world.player._children["shadow"];
-        game.physics.enable(shadowObject, Phaser.Physics.ARCADE);
-        shadowObject.body.checkCollision.left=true;
-
+        game.physics.enable(world.player._children["shadow"], Phaser.Physics.ARCADE);
 
         var keyDown = keyhandler(Phaser.Keyboard.DOWN, 0.0003, 0.3);
         var keyUp =  keyhandler(Phaser.Keyboard.UP, 0.0003, 0.3);
@@ -132,7 +133,7 @@ window.onload = function() {
 		createRandomObstacles();
         handleJumping();
         collideAll();
-		world.player.y = Math.min(350, Math.max(50, world.player.y+playerMove(game.time.elapsed)));
+		world.player.y = Math.max(Math.min(world.player.y + playerMove(game.time.elapsed), maxY), minY);
 		stamina = Math.max(0, Math.min(stamina + staminaIncrease(game.time.elapsed), maxStamina));
 		if (stamina <= 0) {
 			game.state.start("end");
