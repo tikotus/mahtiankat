@@ -71,7 +71,7 @@ window.onload = function() {
 
 	function preload () {
 		game.load.image('logo', 'phaser.png');
-        game.load.spritesheet('player', 'phaser64x64.png', 64, 64, 4);
+        game.load.spritesheet('player', 'char64x64.png', 64, 64, 4);
         game.load.image('obstacle', 'fence.png');
         game.load.image('conflict', 'handsoff.png');
         game.load.image('staminaBar', 'stamina.png');
@@ -97,7 +97,10 @@ window.onload = function() {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         obstacleGroup = world.obstacles;
-        game.physics.enable(world.player._children["shadow"], Phaser.Physics.ARCADE);
+        var shadowObject = world.player._children["shadow"];
+        game.physics.enable(shadowObject, Phaser.Physics.ARCADE);
+        shadowObject.body.checkCollision.left=true;
+
 
         var keyDown = keyhandler(Phaser.Keyboard.DOWN, 0.0003, 0.3);
         var keyUp =  keyhandler(Phaser.Keyboard.UP, 0.0003, 0.3);
@@ -129,7 +132,7 @@ window.onload = function() {
 		createRandomObstacles();
         handleJumping();
         collideAll();
-		world.player.y += playerMove(game.time.elapsed);
+		world.player.y = Math.min(350, Math.max(50, world.player.y+playerMove(game.time.elapsed)));
 		stamina = Math.max(0, Math.min(stamina + staminaIncrease(game.time.elapsed), maxStamina));
 		if (stamina <= 0) {
 			game.state.start("end");
@@ -148,7 +151,7 @@ window.onload = function() {
 
     function collideAll() {
         if (playerElevation==0) {
-            game.physics.arcade.collide(world.player._children["shadow"], obstacleGroup, function(player, obstacle) {
+            game.physics.arcade.overlap(world.player._children["shadow"], obstacleGroup, function(player, obstacle) {
                 obstacle.body.checkCollision.left = false;
                 obstacle.body.checkCollision.right = false;
                 obstacle.body.checkCollision.up = false;
