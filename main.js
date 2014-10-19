@@ -14,7 +14,7 @@ var maxY = 300;
 
 var cJumpDecay = 10; //bigger==fall faster
 var cJumpStamina = 0.5; //stamina consumption rate on jump
-var cJumpFrame = 2;
+var cJumpFrame = 3;
 
 var runMusic;
 var menuMusic;

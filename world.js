@@ -20,7 +20,7 @@ function worldIngame() {
                 },
                 shadow: {
                     sprite: "shadow",
-                    y: 50
+                    y: 30
                 }
             },
 			x : function() { return Math.sin(totalTime * 0.001)*50 +200 },
