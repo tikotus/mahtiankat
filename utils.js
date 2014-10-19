@@ -31,6 +31,10 @@ function initializeWorld(world, parent) {
 			sprite.anchor.setTo(0.5, 0.5);
 			world[name] = sprite;
 		}
+		else if (data.hasOwnProperty("text")) {
+			var text = game.add.text(0, 0, data.text, data.style, parent);
+			world[name] = text;
+		}
 		else {
 			world[name] = game.add.group();
 		}
