@@ -10,6 +10,9 @@ var spawnIndex;
 var playerElevation = 0;
 var jumpPower;
 
+var cJumpDecay = 10; //bigger==fall faster
+var cJumpStamina = 0.5; //stamina consumption rate on jump
+
 window.onload = function() {
 
 	game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload });
@@ -114,9 +117,9 @@ window.onload = function() {
         var power = jumpPower(game.time.elapsed)>0;
         if (power > 0 ) {
             playerElevation+=power;
-            stamina-=power/2;
+            stamina-=power*cJumpStamina;
         } else {
-            playerElevation=Math.max(0, playerElevation-game.time.elapsed/10);
+            playerElevation=Math.max(0, playerElevation-game.time.elapsed/cJumpDecay);
         }
     }
 
