@@ -72,7 +72,7 @@ window.onload = function() {
 	game.state.start("start");
 
 	function preload () {
-		game.load.image('logo', 'phaser.png');
+		game.load.image('logo', 'title.png');
         game.load.spritesheet('player', 'phaser64x64.png', 64, 64, 4);
         game.load.image('obstacle', 'fence.png');
         game.load.image('conflict', 'handsoff.png');
