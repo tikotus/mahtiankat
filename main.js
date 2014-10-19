@@ -76,6 +76,7 @@ window.onload = function() {
         game.load.image('conflict', 'handsoff.png');
         game.load.image('staminaBar', 'stamina.png');
         game.load.image('shadow', 'shadow.png');
+        game.load.image('field', 'field.png');
 
         game.load.audio('ontherun', ['23080__On game music.mp3','23080__On game music.ogg']);
         game.load.audio('menu', ['190628__GAME OVER music.mp3','190628__GAME OVER music.ogg']);
@@ -159,24 +160,25 @@ window.onload = function() {
     }
 
 	function createRandomObstacles() {
+		var maxFences = 15
         if (totalTime > nextSpawnTime) {
-            if (spawnIndex > 11) {
+            if (spawnIndex > maxFences) {
                 spawnIndex = 0;
             }
 			if (world.obstacles._children.hasOwnProperty("obstacle" + spawnIndex)) {
 				world.obstacles._children["obstacle" + spawnIndex].destroy();	
 			}
 
-			var locations = [-150, 150];
-			var createObstacle = function(index) {
+			var locations = [-140, 20];
+			var createObstacle = function(y) {
 				var spawnTime = totalTime;
 				var obj = world.obstacles.create(0, 0, "obstacle");
 				obj.anchor.setTo(0.5, 0.5);
-				obj.y = locations[index];
-                obj.x = 800;
+				obj.y = y;
+                obj.x = 0;
                 game.physics.enable(obj, Phaser.Physics.ARCADE);
                 obj.body.velocity.x = -150;
-                obj.body.setSize(obj.width, obj.height-30, 0, 30);
+                obj.body.setSize(obj.width, obj.height-30, 0, 15);
 
                 obstacleGroup.add(obj);
                 /*
@@ -185,12 +187,16 @@ window.onload = function() {
 				};
                  */
 				world.obstacles._children["obstacle" + spawnIndex] = obj;
-				spawnIndex++;
 			};
-			createObstacle(spawnIndex % locations.length);
-			//createObstacle((randomIndex + 1) % locations.length);
-
-			nextSpawnTime = totalTime + 2000 + Math.random() * 500;
+			createObstacle(locations[spawnIndex % locations.length]);
+			spawnIndex++;
+			if (spawnIndex % 5 == 4) {
+				// Create a double fence
+				createRandomObstacles();
+			}
+			else {
+				nextSpawnTime = totalTime + 2000 + Math.random() * 500;	
+			}
 		}
 	}
 };

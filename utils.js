@@ -6,13 +6,6 @@ function clone(obj) {
 	return copy;
 }
 
-
-function addSprite(name) {
-	var sprite = game.add.sprite(game.world.centerX, game.world.centerY, name);
-	sprite.anchor.setTo(0.5, 0.5);
-	return sprite;
-}
-
 function get(val) {
 	if (typeof val == "function") {
 		return get(val());
@@ -31,6 +24,12 @@ function initializeWorld(world, parent) {
 			sprite.anchor.setTo(0.5, 0.5);
 			world[name] = sprite;
 		}
+		else if (data.hasOwnProperty("tileSprite")) {
+			var tileSprite = game.add.tileSprite(0, 0, 800, 600, data.tileSprite);
+			//tileSprite.tilePosition.x = 50;
+			parent.add(tileSprite);
+			world[name] = tileSprite;
+		}
 		else if (data.hasOwnProperty("text")) {
 			var text = game.add.text(0, 0, data.text, data.style, parent);
 			world[name] = text;
@@ -38,10 +37,11 @@ function initializeWorld(world, parent) {
 		else {
 			world[name] = game.add.group();
 		}
-		world[name].originalData = data;
 		for (var key in data) {
+			console.log(data[key]);
 			world[name][key] = get(data[key]);
 		}			
+		world[name].originalData = data;
 
 		if (data.hasOwnProperty("_children")) {
 			// Initialize children
