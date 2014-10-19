@@ -3,8 +3,11 @@ var playerMove;
 var totalTime = 0;
 var obstacleGroup;
 var maxStamina = 100;
-var stamina = 100;
+var stamina;
 var world;
+var nextSpawnTime;
+var spawnIndex;
+
 window.onload = function() {
 
 	game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload });
@@ -57,9 +60,14 @@ window.onload = function() {
 	}
 
 	function create () {
-		game.stage.backgroundColor = '#CCCCFF';
+		game.stage.backgroundColor = '#CCCCFF';  
 		world = worldIngame();
 		initializeWorld(world, game.add.group());
+		
+		stamina = 100;
+		nextSpawnTime = 0;
+		spawnIndex = 0;
+		totalTime = 0;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         obstacleGroup = world.obstacles;
@@ -84,6 +92,9 @@ window.onload = function() {
         collideAll();
 		world.player.y += playerMove(game.time.elapsed);
 		stamina = Math.max(0, Math.min(stamina + staminaIncrease(game.time.elapsed), maxStamina));
+		if (stamina <= 0) {
+			game.state.start("end");
+		}
 	}
 
     function collideAll() {
@@ -98,8 +109,6 @@ window.onload = function() {
         });
     }
 
-    var nextSpawnTime = 0;
-	var spawnIndex = 0;
 	function createRandomObstacles() {
         if (totalTime > nextSpawnTime) {
             if (spawnIndex > 11) {
